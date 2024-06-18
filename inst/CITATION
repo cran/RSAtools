@@ -1,0 +1,19 @@
+citHeader("To cite RSAtools in publications use:")
+
+year <- "2024"
+vers <- "0.1.0"
+url <- "https://CRAN.R-project.org/package=RSAtools"
+
+bibentry(bibtype = "Manual",
+  title        = "\\texttt{RSAtools}: Tools for Advanced Response Surface Analysis on {R}",
+  author       = c(person(given = "Fernando", family = "Núñez-Regueiro"),
+                   person(given = "Jacques", family = "Juhel")),
+  year         = year,
+  note         = vers,
+  url          = url,
+
+  textVersion  =
+  paste("Núñez-Regueiro, F., Juhel, J. (",
+        year, "). RSAtools: Tools for Advanced Response Surface Analysis on R. ",
+        vers, ". Retrieved from ", url, sep = "")
+)
