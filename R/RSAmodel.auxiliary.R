@@ -24,7 +24,7 @@
 #' @param ... Additional parameters passed to the \code{\link[semTools]{sem.auxiliary} } function.
 #' @return A list of objects containing polynomials models and names of variables 
 #' @references 
-#' Graham, J. W. (2003). \emph{Adding missing-data-relevant variables to FIML-based structural equation models} Structural Equation Modeling, 10(1), 80-100, DOI:10.1207/S15328007SEM1001_4
+#' Graham, J. W. (2003). Adding missing-data-relevant variables to FIML-based structural equation models. \emph{Structural Equation Modeling, 10}(1), 80-100, DOI:10.1207/S15328007SEM1001_4
 #'  
 #' Núñez-Regueiro, F., Juhel, J. (2022). \emph{Model-Building Strategies in Response Surface Analysis} Manuscript submitted for publication.
 #'  
@@ -35,7 +35,7 @@
 
 
 RSAmodel.auxiliary <- function(formula, data = NULL, aux=NULL, center = "none", scale = "none",
-    na.rm = FALSE, out.rm = TRUE, breakline = FALSE, models = c("STEP1"),user_model=NULL,
+    na.rm = FALSE, out.rm = TRUE, breakline = FALSE, models = c("CUBIC","STEP1"),user_model=NULL,
     verbose = TRUE, add = "", estimator = "MLR", se = "robust", missing = NA,
     control.variables = NULL, center.control.variables = FALSE, sampling.weights =NULL,group_name=NULL,cluster=NULL,
     ...)

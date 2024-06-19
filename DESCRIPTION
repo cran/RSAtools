@@ -1,7 +1,7 @@
 Package: RSAtools
 Type: Package
 Title: Advanced Response Surface Analysis
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person(given   = "Fernando", family = "Núñez-Regueiro",
                     role    = c("aut", "cre"),
                     email   = "fernando.nr.france@gmail.com",
@@ -32,6 +32,6 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2024-06-18 09:47:54 UTC; FerNR
+Packaged: 2024-06-19 13:34:51 UTC; FerNR
 Repository: CRAN
-Date/Publication: 2024-06-18 15:30:05 UTC
+Date/Publication: 2024-06-19 14:10:35 UTC

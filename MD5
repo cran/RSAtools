@@ -1,8 +1,8 @@
-7c7b1c4a8d4f3d2503045281eba83d4b *DESCRIPTION
+8f41cf81a2c5bb39b6379bbde30462f9 *DESCRIPTION
 84eeb3681e8c41e6fd9222af26fef1a9 *NAMESPACE
 885b850fc0f7bb03e8cf01c5f0c46567 *R/RSA_step1.R
-65abec7a1e64cb7810b47a2a44a34d32 *R/RSAmodel.R
-ba1393f087a9e863e02f0ecaf1e476df *R/RSAmodel.auxiliary.R
+f08f83cbaa8b07bc0447c3331633acac *R/RSAmodel.R
+3c6a9ae33ea3e13acb42ad6c7b3f1118 *R/RSAmodel.auxiliary.R
 736ee85ad544f5045dda3adccbe7d913 *R/best.rsa.R
 376506ce9bf3d378cf65241039493505 *R/best.rsa2.R
 ffa3e7e415c636d80157e281b145d956 *R/exportRSA.bootstrap.R
@@ -15,10 +15,10 @@ e8828b746d2f17bd8abdda861ddf903d *R/plotting.rsa.R
 c9559189c97b4a704e545ebb1eebb42d *data/RSA_step1.rda
 fa1e56efb8c1adc8cf28870ed77fdf40 *data/datalist
 5d45a05edaf5fb1b521f2f610fcd1f51 *data/sim_NSfit.rda
-7fb074d24ec1ca20bdc72d80e1601f88 *inst/CITATION
+57631d059cfaf3269e33fe8a103d60b7 *inst/CITATION
 1ebc00331d744ef124cd75213a057705 *man/RSA_step1.Rd
-f3ade67c0c7b54377eb8f693f07c8d06 *man/RSAmodel.Rd
-e096e0e1092bdce6c05a56ad8e2a8c20 *man/RSAmodel.auxiliary.Rd
+01491c2c00ab5b339eaf53a030832fa1 *man/RSAmodel.Rd
+519b5ab208dac10da544fb98fef4859e *man/RSAmodel.auxiliary.Rd
 f53b6bce3ae3f54b8b819cc4a25ee6e6 *man/best.rsa.Rd
 f8b01e7c875a9f9fbb4193e4f956c2f8 *man/best.rsa2.Rd
 4e6ceb4445d778bdd8e93fe3036a312b *man/exportRSA.bootstrap.Rd

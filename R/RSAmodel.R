@@ -33,11 +33,11 @@
 #' ###Simulation data from RSAtools
 #' summary(sim_NSfit)
 #' 
-#' ##### STEP 1: Estimate and compare polynolial families
+#' ##### STEP 1: Estimate and compare polynomial families
 #' ##NB: to estimate all families, use "STEP1" in the "model" option
 #' RSA_step1 <-  RSAmodel(engagement ~ needs*supplies,
-#' data= sim_NSfit, model= c("CUBIC","FM8_INCONG","FM9_INCONG","FM20_ASYMCONG",
-#' "FM21_ASYMCONG","FM26_PARALLELASYMWEAK"))
+#' data= sim_NSfit, model= c("CUBIC","FM20_ASYMCONG",
+#' "FM21_ASYMINCONG","FM26_PARALLELASYMWEAK"))
 #' names(RSA_step1$models)
 #' ##Compare solutions according to parsimony (wAIC=Akaike weight)
 #' RSA_step1_fit <- best.rsa(RSA_step1,order=c("wAIC"))
@@ -73,7 +73,7 @@
 
 
 RSAmodel <- function(formula, data = NULL, center = "none", scale = "none",
-    na.rm = FALSE, out.rm = TRUE, breakline = FALSE, models = c("STEP1"),user_model=NULL,
+    na.rm = FALSE, out.rm = TRUE, breakline = FALSE, models = c("CUBIC","STEP1"),user_model=NULL,
     verbose = TRUE, add = "", estimator = "MLR", se = "robust", missing = NA,
     control.variables = NULL, center.control.variables = FALSE, sampling.weights =NULL,group_name=NULL,cluster=NULL,
     ...)

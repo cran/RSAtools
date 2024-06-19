@@ -13,7 +13,7 @@ RSAmodel.auxiliary(
   na.rm = FALSE,
   out.rm = TRUE,
   breakline = FALSE,
-  models = c("STEP1"),
+  models = c("CUBIC", "STEP1"),
   user_model = NULL,
   verbose = TRUE,
   add = "",
@@ -81,7 +81,7 @@ Estimate any number of predefined or user-specific polynomial models, using auxi
 This function implements a comparative framework for identifying best-fitting RSA solutions (Núñez-Regueiro & Juhel, 2022, 2024). The default feature ("STEP1") involves the comparison of 37 polynomial families predefined by parametric constraints (against 10 families in the RSA package), to identify likely candidates for best-fitting solution. Step 2 involves probing variants within the retained best-fitting family, by testing user-specific constraints ("USER") on lower-order polynomials that do not define the family. Step 3 can be conducted on the final variant by parametric bootstrapping using \code{bootstrapLavaan(RSA_object$models$name_final, FUN="coef")} or cross-validation data.
 }
 \references{
-Graham, J. W. (2003). \emph{Adding missing-data-relevant variables to FIML-based structural equation models} Structural Equation Modeling, 10(1), 80-100, DOI:10.1207/S15328007SEM1001_4
+Graham, J. W. (2003). Adding missing-data-relevant variables to FIML-based structural equation models. \emph{Structural Equation Modeling, 10}(1), 80-100, DOI:10.1207/S15328007SEM1001_4
  
 Núñez-Regueiro, F., Juhel, J. (2022). \emph{Model-Building Strategies in Response Surface Analysis} Manuscript submitted for publication.
  
