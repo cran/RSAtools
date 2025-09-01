@@ -1,0 +1,5 @@
+# RSAtools 0.1-2
+
+## Bug Fixes:
+
+- The internal function '.cModels' imported column indices instead of column names from lavaan, which broke in the new lavaan package. The bug was fixed by using column names (my thanks to Y. Rosseel).

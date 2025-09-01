@@ -175,7 +175,7 @@ which(diff(diff(x)<=0)<0)
 	aL1 <- .anovaList(mL)
 	if (aL1$n.mods > 1) {
 		N <- lavaan::nobs(aL1$models[[1]])
-		a1 <- cbind(aL1$ANOVA[, c(1, 4:7)], plyr::ldply(aL1$models, function(X) {
+		a1 <- cbind(aL1$ANOVA[, c("Df","AIC","BIC","Chisq","Chisq diff","Df diff","Pr(>Chisq)")], plyr::ldply(aL1$models, function(X) {
 			FF <- lavaan::fitmeasures(X)
 			R <- lavaan::inspect(X, "r2")
 			names(R) <- "R2"

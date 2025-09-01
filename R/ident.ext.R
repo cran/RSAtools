@@ -71,7 +71,6 @@ ident.ext <- function(RSA_object,model = NULL,acceleration=c(0,0), alpha = 0.05,
     
     df = data[data$out == FALSE, ]
 
-
 ####Select outcome (observed, predicted) to be compared with reversal/acceleration points
 if(z_tested=="observed" | is.null(z_tested) ){
 	df$z.ind <- df[,DV]

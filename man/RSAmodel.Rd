@@ -32,9 +32,9 @@ RSAmodel(
 
 \item{data}{A data frame with the variables}
 
-\item{center}{Method for centering the predictor variables before the analysis. Default option ("none") applies no centering. "pooled" centers the predictor variables on their \emph{pooled} sample mean. "variablewise" centers the predictor variables on \emph{their respective} sample mean. You should think carefully before applying the "variablewise" option, as centering or reducing the predictor variables on common values (e.g., their grand means and SDs) can affect the commensurability of the predictor scales.}
+\item{center}{Method for centering the predictor variables before the analysis. Default option ("variablewise") centers the predictor variables on \emph{their respective} sample mean. "none" applies no centering. "pooled" centers the predictor variables on their \emph{pooled} sample mean. You should think carefully before applying the "pooled" option, as centering or reducing the predictor variables on common values (e.g., their grand means and SDs) can affect the commensurability of the predictor scales.}
 
-\item{scale}{Method for scaling the predictor variables before the analysis. Default option ("none") applies no scaling. "pooled" scales the predictor variables on their \emph{pooled} sample SD, which preserves the commensurability of the predictor scales. "variablewise" scales the predictor variables on \emph{their respective} sample SD. You should think carefully before applying the "variablewise" option, as scaling the predictor variables at different values (e.g., their respective SDs) can affect the commensurability of the predictor scales.}
+\item{scale}{Method for scaling the predictor variables before the analysis. Default option ("variablewise") scales the predictor variables on \emph{their respective} sample SD. "none" applies no scaling. "pooled" scales the predictor variables on their \emph{pooled} sample SD. You should think carefully before applying the "pooled" option, as scaling the predictor variables on common values (e.g., their grand SDs) can affect the commensurability of the predictor scales.}
 
 \item{na.rm}{Remove missings before proceeding?}
 

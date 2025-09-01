@@ -29,7 +29,7 @@
 #' best.rsa2(RSA_NSfit,m1="variant1",m2="FM26_PARALLELASYMWEAK")[2,1:3]
 #' @export
 
-best.rsa2 <- function(RSA_object,m1,m2,order=c("wAIC"), robust=TRUE){
+best.rsa2 <- function(RSA_object,m1,m2,order=c("wAIC"), robust=F){
 
 names_models <- c(m1,m2)
 
@@ -42,24 +42,39 @@ list_models_fitted[[names(RSA_object[[1]][i])]]	<- RSA_object[[1]][i]
 names(list_models_fitted)
 
 ######## Compare models using LRT
-compRSA_2  <- round(.compare2(RSA_object,m1,m2,verbose=FALSE)[,-c(14:15)],3)
+compRSA_2  <- round(.compare2(RSA_object,m1,m2,verbose=FALSE)[,c("Chisq diff","Df diff","Pr(>Chisq)","R2","R2.adj")],3)
 
 
 #######Complementary fit indices
 
-#Robust indicators
-fit_names_plain	<- c("aic_w","bic_w","aic","bic","df","chisq","pvalue","cfi","tli","rmsea","rmsea.pvalue","srmr")
-fit_names_robust	<- c("aic_w","bic_w","aic","bic","df","chisq.scaled","pvalue.scaled","cfi.robust","tli.robust","rmsea.robust","rmsea.pvalue.robust","srmr")	
+# Robust indicators
+fit_names_plain <- c("aic_w", "bic_w", "aic", "bic", "df", "chisq", "pvalue", "cfi", "tli", "rmsea", "rmsea.pvalue", "srmr")
+fit_names_robust <- c("aic_w", "bic_w", "aic", "bic", "df", "chisq.scaled", "pvalue.scaled", "cfi.robust", "tli.robust", "rmsea.robust", "rmsea.pvalue.robust", "srmr")
 
-if(robust==F){ fit_names	<- fit_names_plain }
-if(robust==T){fit_names	<- fit_names_robust	}
-names_models <- names(list_models_fitted)
-matrix_fitind <- matrix(nrow=length(names_models),ncol=length(fit_names),dimnames=list(names_models,fit_names))
+# Check estimator if robust=TRUE
+if (robust == TRUE) {
+  estimators <- sapply(list_models_fitted, function(x) x[[1]]@Options$estimator)
+  invalid_estimators <- estimators[!estimators %in% c("MLR", "WLSMV", "ULSMV", "WLSM")]
 
-#Extract fit indices
-for(i in 1:length(list_models_fitted)){
-matrix_fitind[i,-c(1:2)] <-  lavaan::fitmeasures(list_models_fitted[[i]][[1]],fit_names[-c(1:2)])
+  if (length(invalid_estimators) > 0) {
+    stop("Error: Robust fit indices requested, but at least one model does not use a robust estimator (e.g., 'MLR', 'WLSMV'). Please set 'robust=FALSE' or use a robust estimator in all models.")
+  }
+
+  fit_names <- fit_names_robust
+} else {
+  fit_names <- fit_names_plain
 }
+
+# Prepare matrix to store fit indices
+names_models <- names(list_models_fitted)
+matrix_fitind <- matrix(nrow = length(names_models), ncol = length(fit_names), dimnames = list(names_models, fit_names))
+
+# Extract fit indices (excluding aic_w and bic_w in lavaan::fitmeasures call)
+for (i in seq_along(list_models_fitted)) {
+  matrix_fitind[i, -c(1:2)] <- lavaan::fitmeasures(list_models_fitted[[i]][[1]], fit_names[-c(1:2)])
+}
+
+# Assign column names for output (if you always want plain names in output)
 colnames(matrix_fitind) <- fit_names_plain
 
 #Akaike and bayesian weights

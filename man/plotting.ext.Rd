@@ -17,7 +17,9 @@ plotting.ext(
   e_label = NULL,
   text_size = 1,
   elabel_size = 5,
-  e_size = 3
+  e_size = 3,
+  breaks_x = NULL,
+  breaks_z = NULL
 )
 }
 \arguments{
@@ -46,6 +48,10 @@ plotting.ext(
 \item{elabel_size}{Text size for extrema coordinates.}
 
 \item{e_size}{Point size of extrema.}
+
+\item{breaks_x}{Scale breaks for x axis. Defaults to seq(-10, 10, 0.5).}
+
+\item{breaks_z}{Scale breaks for z axis. Defaults to seq(-10, 10, 0.5).}
 }
 \value{
 A list of plot of the lines of congruence (LOC) and incongruence (LOIC)
@@ -57,10 +63,13 @@ Plots the response surface of an RSA object along the lines of congruence (LOC) 
 The lines of congruence (LOC) and incongruence (LOIC) are fundamental to RSA applications. This function allows plotting the response along the LOC and LOIC, thus offering a more precise visualization of the response surface (as a complement to 3d or 2d projections provided by \code{RSAplot}). The location of reversal or acceleration points can be provided with x-y-z coordinales or without them (e_label='none').
 }
 \examples{
+######ESTIMATE POLYNOMIAL MODEL FOR RSA
+RSA_NSfit  <- RSAmodel(formula= engagement ~ needs*supplies,
+data= sim_NSfit, model= c("FM26_PARALLELASYMWEAK"))
 ######PLOT EXTREMA OVER LOC AND LOIC
-EXTsim <- plotting.ext(RSA_step1,model="FM26_PARALLELASYMWEAK",
+EXTsim <- plotting.ext(RSA_NSfit,model="FM26_PARALLELASYMWEAK",
 xlim=c(-3,3),zlim=c(-3,3),acceleration=c(0,-0.3),
-text_size=0.7,elabel_size=3,e_size=2)
+text_size=0.7,elabel_size=3,e_size=2,breaks_x=seq(-10, 10, 0.5),breaks_z=seq(-10, 10, 0.5))
 ggpubr::ggarrange(EXTsim[["LOC"]], EXTsim[["LOIC"]],
 labels = c("A. Response over LOC", "B. Response over LOIC"),
 nrow=1,ncol=2,font.label = list(size = 11))

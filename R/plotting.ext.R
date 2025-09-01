@@ -18,21 +18,26 @@
 #' @param text_size Text size for titles and labels.
 #' @param elabel_size Text size for extrema coordinates.
 #' @param e_size Point size of extrema.
+#' @param breaks_x Scale breaks for x axis. Defaults to seq(-10, 10, 0.5).
+#' @param breaks_z Scale breaks for z axis. Defaults to seq(-10, 10, 0.5).
 #' @return A list of plot of the lines of congruence (LOC) and incongruence (LOIC)
 #' @seealso \code{\link{RSAmodel}}
 #'
 #' @examples
+#' ######ESTIMATE POLYNOMIAL MODEL FOR RSA
+#' RSA_NSfit  <- RSAmodel(formula= engagement ~ needs*supplies,
+#' data= sim_NSfit, model= c("FM26_PARALLELASYMWEAK"))
 #' ######PLOT EXTREMA OVER LOC AND LOIC
-#' EXTsim <- plotting.ext(RSA_step1,model="FM26_PARALLELASYMWEAK",
+#' EXTsim <- plotting.ext(RSA_NSfit,model="FM26_PARALLELASYMWEAK",
 #' xlim=c(-3,3),zlim=c(-3,3),acceleration=c(0,-0.3),
-#' text_size=0.7,elabel_size=3,e_size=2)
+#' text_size=0.7,elabel_size=3,e_size=2,breaks_x=seq(-10, 10, 0.5),breaks_z=seq(-10, 10, 0.5))
 #' ggpubr::ggarrange(EXTsim[["LOC"]], EXTsim[["LOIC"]],
 #' labels = c("A. Response over LOC", "B. Response over LOIC"),
 #' nrow=1,ncol=2,font.label = list(size = 11))
 #' @export
 
+plotting.ext <- function(RSA_object, model,acceleration=c(0,0),n_sample= 100,names_xLOC=NULL, names_xLOIC=NULL, names_z=NULL,xlim=NULL,zlim=NULL, e_label=NULL, text_size=1,elabel_size=5, e_size=3, breaks_x=NULL, breaks_z=NULL){
 
-plotting.ext <- function(RSA_object, model,acceleration=c(0,0),n_sample= 100,names_xLOC=NULL, names_xLOIC=NULL, names_z=NULL,xlim=NULL,zlim=NULL, e_label=NULL, text_size=1,elabel_size=5, e_size=3){
 
 ###var_x, var_z
 			if (is.null(names_xLOC)) {
@@ -49,6 +54,7 @@ plotting.ext <- function(RSA_object, model,acceleration=c(0,0),n_sample= 100,nam
 
 			
 ###xlim, zlim
+class(RSA_object) <- "list"
 data = RSA_object$data
 			if (is.null(xlim)) {
 				# xlim <- c(-3, 3)
@@ -182,6 +188,8 @@ zLOIC_e2 <- ifelse(is.na(reversal_loic[2,"Z_value"]), acceleration_loic[2,"Z_val
 #####PLOT SOLUTIONS
 code_color <- c("black","black","red","green","green")
 code_line <- c("solid","twodash","twodash")
+if (is.null(breaks_x)) breaks_x <- seq(-10, 10, 0.5)
+if (is.null(breaks_z)) breaks_z <- seq(-10, 10, 0.5)
 
 ####PLOT Z_LOC
 df_LOC$groupEXT <- ifelse(df_LOC$var_x <xLOC_e1 & !is.na(xLOC_e2),"2_ext1",ifelse(df_LOC$var_x >xLOC_e2 & !is.na(xLOC_e2),"3_ext1",ifelse(is.na(xLOC_e2),"Quadratic",ifelse(is.na(xLOC_e2) & is.na(xLOC_e1),"None","1_Inflection"))))
@@ -191,8 +199,8 @@ if( levels(factor(df_LOC$groupEXT))[1]=="None"  ){
 plot_zLOC <- ggplot(df_LOC,aes(x= var_x,y= z_LOC) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x=names_xLOC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 geom_text(aes(mean(var_x), mean(z_LOC),label = paste(label_r1_LOC,"\n", label_r2_LOC,sep=""), vjust = 0),size=elabel_size,colour="green",inherit.aes=F, fontface = "plain")+geom_point(aes(mean(var_x), mean(z_LOC)), size=e_size, shape="circle", color="green")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
 
@@ -203,8 +211,8 @@ if( levels(factor(df_LOC$groupEXT))[1]=="1_Inflection"  ){
 plot_zLOC <- ggplot(df_LOC,aes(x= var_x,y= z_LOC) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x=names_xLOC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 # geom_text(aes(mean(var_x), mean(z_LOC),label = paste(label_r1_LOC,"\n", label_r2_LOC,sep=""), vjust = 0),size=elabel_size,colour="green",inherit.aes=F, fontface = "plain")+geom_point(aes(mean(var_x), mean(z_LOC)), size=e_size, shape="circle", color="green")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
 
@@ -216,8 +224,8 @@ if( levels(factor(df_LOC$groupEXT))[1]=="Quadratic" | length(table(df_LOC$groupE
 plot_zLOC <- ggplot(df_LOC,aes(x= var_x,y= z_LOC) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x=names_xLOC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 geom_text(aes(xLOC_e1, zLOC_e1,label = label_r1_LOC, vjust = -u2/abs(u2)* -0.5),size=elabel_size,colour="green",inherit.aes=F, fontface = "plain")+geom_point(aes(xLOC_e1, zLOC_e1), size=e_size, shape="circle", color="green")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
 
@@ -229,8 +237,8 @@ if( length(table(df_LOC$groupEXT))>2 ){
 plot_zLOC <- ggplot(df_LOC,aes(x= var_x,y= z_LOC,group=groupEXT,linetype= groupEXT) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x=names_xLOC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 geom_text(aes(xLOC_e1, zLOC_e1,label = label_r1_LOC, vjust = xLOC_e1/abs(xLOC_e1)*0.8),size=elabel_size,colour="green",inherit.aes=F, fontface = "plain")+geom_point(aes(xLOC_e1, zLOC_e1), size=e_size, shape="circle", color="green")+
 geom_text(aes(xLOC_e2, zLOC_e2,label = label_r2_LOC, vjust = xLOC_e2/abs(xLOC_e2)*1.8),size=elabel_size,colour="green",inherit.aes=F, fontface = "plain")+geom_point(aes(xLOC_e2, zLOC_e2), size=e_size, shape="circle", color="green")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
@@ -248,8 +256,8 @@ if( levels(factor(df_LOIC$groupEXT2))[1]=="None"  ){
 plot_zLOIC <- ggplot(df_LOIC,aes(x= var_x,y= z_LOIC) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x=names_xLOIC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 geom_text(aes(mean(var_x), mean(z_LOIC),label = paste(label_r1_LOIC,"\n", label_r2_LOIC,sep=""), vjust = 0),size=elabel_size,colour="red",inherit.aes=F, fontface = "plain")+geom_point(aes(mean(var_x), mean(z_LOIC)), size=e_size, shape="circle", color="red")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
 
@@ -259,8 +267,8 @@ if(  levels(factor(df_LOIC$groupEXT2))[1]=="1_Inflection" ){
 plot_zLOIC <- ggplot(df_LOIC,aes(x= var_x,y= z_LOIC) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x=names_xLOIC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 # geom_text(aes(mean(var_x), mean(z_LOIC),label = paste(label_r1_LOIC,"\n", label_r2_LOIC,sep=""), vjust = 0),size=elabel_size,colour="red",inherit.aes=F, fontface = "plain")+geom_point(aes(mean(var_x), mean(z_LOIC)), size=e_size, shape="circle", color="red")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
 
@@ -271,8 +279,8 @@ if( levels(factor(df_LOIC$groupEXT2))[1]=="Quadratic" | length(table(df_LOIC$gro
 plot_zLOIC <- ggplot(df_LOIC,aes(x= var_x,y= z_LOIC) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x= names_xLOIC,y= names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 geom_text(aes(xLOIC_e1, zLOIC_e1,label = label_r1_LOIC, vjust = -v2/abs(v2)* -0.5),size=elabel_size,colour="red",inherit.aes=F, fontface = "plain")+geom_point(aes(xLOIC_e1, zLOIC_e1), size=e_size, shape="circle", color="red")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));
 
@@ -283,8 +291,8 @@ if( length(table(df_LOIC$groupEXT2))>2    ){
 plot_zLOIC <- ggplot(df_LOIC,aes(x= var_x,y= z_LOIC,group=groupEXT2,linetype= groupEXT2) )+ggtitle("")+geom_line(na.rm=TRUE,size=1)+
 labs(x= names_xLOIC,y=names_z)+
 scale_linetype_manual(values= code_line)+scale_color_manual(values=code_color)+
-scale_y_continuous(breaks=seq(-10, 10,0.5),limits=zlim)+
-scale_x_continuous(breaks=seq(-10, 10,0.5),limits=xlim)+
+scale_y_continuous(breaks=breaks_z,limits=zlim)+
+scale_x_continuous(breaks=breaks_x,limits=xlim)+
 geom_text(aes(xLOIC_e1, zLOIC_e1,label = label_r1_LOIC, vjust = xLOIC_e1/abs(xLOIC_e1)*0.8),size=elabel_size,colour="red",inherit.aes=F, fontface = "plain")+geom_point(aes(xLOIC_e1, zLOIC_e1), size=e_size, shape="circle", color="red")+
 geom_text(aes(xLOIC_e2, zLOIC_e2,label = label_r2_LOIC, vjust = xLOIC_e2/abs(xLOIC_e2)*1.8),size=elabel_size,colour="red",inherit.aes=F, fontface = "plain")+geom_point(aes(xLOIC_e2, zLOIC_e2), size=e_size, shape="circle", color="red")+
 theme(legend.position="none",panel.background=element_rect(fill="grey100",colour="grey50"),legend.key.size = unit(2, units="cm"),legend.background=element_rect(colour="black"),panel.grid=element_line(color="grey"),axis.title=element_text(size=15*text_size), axis.text=element_text(size=15*text_size));

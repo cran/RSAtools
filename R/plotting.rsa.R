@@ -113,7 +113,6 @@
 #' @rdname plotting.rsa
 #' @export
 
-
 plotting.rsaCOEF <- function(x=0, y=0, x2=0, y2=0, xy=0, w=0, wx=0, wy=0, x3=0, xy2=0, x2y=0, y3=0, b0=0, 
 	type="3d", model="CUBIC",acceleration=c(0,0),FAST=TRUE,n_sample=100, 
 	xlim=NULL, ylim=NULL, zlim=NULL, 

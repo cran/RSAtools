@@ -18,7 +18,6 @@
 #' @export
 
 
-
 exportRSA.bootstrap <- function(RSAbootstrap_object){
 	
 BOOTS_raw <- data.frame(RSAbootstrap_object)
